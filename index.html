@@ -9,7 +9,7 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #ffffff;
+            background-color: #000000;
         }
         header {
             background-color: #c90404;
@@ -26,7 +26,7 @@
             background-position: center;
             margin-bottom: 100px;
             text-align: center;
-            padding: 20px;
+            padding: 100px;
             border-radius: 10px;
             color: white;
             max-width: 100%;
@@ -39,13 +39,32 @@
         }
 
         .controls {
-            flex-direction: column;
-            gap: 15px;
+            flex-direction: row;
+            gap: 10px;
         }
 
         .controls button {
-            width: 100%;
-            max-width: 150px;
+            width: auto;
+            max-width: none;
+            font-size: 16px;
+            padding: 10px 15px;
+            border: none;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            margin: 0;
+        }
+
+        .controls button:focus {
+            outline: 2px solid #ffcccb;
+            outline-offset: 2px;
+        }
+
+        .controls button:hover {
+            background-color: #c90404;
+            transform: scale(1.05);
         }
         .playlist {
             list-style: none;
@@ -112,7 +131,7 @@
 </head>
 <body>
     <header>
-        <h1>SounD</h1>
+        <h1>PlayOne</h1>
         <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 10px;">
             <input type="text" placeholder="Pesquisar..." style="padding: 5px; border-radius: 5px; border: 1px solid #ccc;">
             <button style="background-color: #c90404; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">Pesquisar</button>
@@ -140,16 +159,30 @@
                     <span style="font-size: 20px;">&#9654;</span>
                 </button>
             </div>
+            <button id="addToFavoritesButton" style="margin-top: 10px; background-color: transparent; color: white; border: none; cursor: pointer; font-size: 24px;">
+                <span id="favoriteIcon" style="color: white;">&#9825;</span>curtir
+            </button>
+            <script>
+                const addToFavoritesButton = document.getElementById('addToFavoritesButton');
+                const favoriteIcon = document.getElementById('favoriteIcon');
+                let isFavorite = false;
+
+                addToFavoritesButton.addEventListener('click', () => {
+                    isFavorite = !isFavorite;
+                    favoriteIcon.innerHTML = isFavorite ? '&#9829;' : '&#9825;';
+                    favoriteIcon.style.color = isFavorite ? '#ff0000' : 'white';
+                });
+            </script>
+        </div>
+        <div style="text-align: center; margin-top: 20px;">
+            <input type="file" id="songFileInput" accept="audio/*" style="display: none;">
+            <button id="addSongButton" style="background-color: #c90404; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; display: flex; align-items: center; gap: 5px;">
+                <span style="font-size: 20px;">&#43;</span>Adicionar Música
+            </button>
         </div>
         <ul class="playlist" id="playlist">
             <!-- Songs will be dynamically added here -->
         </ul>
-    </div>
-    <div style="text-align: center; margin-top: 20px;">
-        <input type="file" id="songFileInput" accept="audio/*" style="display: none;">
-        <button id="addSongButton" style="background-color: #c90404; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; display: flex; align-items: center; gap: 5px;">
-            <span style="font-size: 20px;">&#43;</span> Adicionar Música
-        </button>
     </div>
     <script>
         const addSongButton = document.getElementById('addSongButton');
