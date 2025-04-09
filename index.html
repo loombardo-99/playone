@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlayOne</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+        }
+        header {
+            background-color: #c90404;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        .container {
+            padding: 20px;
+        }
+        .audio-player {
+            background-image: url(midia/linhas-vermelha.jpg);
+            background-size: cover;
+            background-position: center;
+            margin-bottom: 100px;
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        audio {
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .controls {
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .controls button {
+            width: 100%;
+            max-width: 150px;
+        }
+        .playlist {
+            list-style: none;
+            padding: 0;
+        }
+        .playlist li {
+            background: white;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .playlist li.active {
+            background-color: #ffcccb;
+        }
+        .playlist li button {
+            background-color: #c90404b0;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            width: 100%;
+            max-width: 200px;
+            box-sizing: border-box;
+        }
+        .playlist li button:hover {
+            background-color: #c90404;
+            transform: scale(1.05);
+        }
+        .playlist li button:focus {
+            outline: 2px solid #ffcccb;
+            outline-offset: 2px;
+        }
+        @media (max-width: 768px) {
+            .playlist li button {
+                font-size: 14px;
+                padding: 8px 10px;
+            }
+        }
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .controls button {
+            background-color: #c90404;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .controls button:hover {
+            background-color: #c904047a;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>SounD</h1>
+        <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 10px;">
+            <input type="text" placeholder="Pesquisar..." style="padding: 5px; border-radius: 5px; border: 1px solid #ccc;">
+            <button style="background-color: #c90404; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">Pesquisar</button>
+        </div>
+        <nav style="margin-top: 10px; text-align: center;">
+            <a href="#inicio" style="margin: 0 10px; color: white; text-decoration: none;">Início</a>
+            <a href="#conta" style="margin: 0 10px; color: white; text-decoration: none;">Conta</a>
+            <a href="#planos" style="margin: 0 10px; color: white; text-decoration: none;">Planos</a>
+        </nav>
+    </header>
+    <div class="container">
+        <div class="audio-player">
+            <audio id="audioPlayer" controls>
+                <source src="" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+            <div id="nowPlaying" style="margin-top: 10px; font-weight: bold;">
+                <!-- Current song info will be displayed here -->
+            </div>
+            <div class="controls">
+                <button id="prevButton" aria-label="Previous">
+                    <span style="font-size: 20px;">&#9664;</span>
+                </button>
+                <button id="nextButton" aria-label="Next">
+                    <span style="font-size: 20px;">&#9654;</span>
+                </button>
+            </div>
+        </div>
+        <ul class="playlist" id="playlist">
+            <!-- Songs will be dynamically added here -->
+        </ul>
+    </div>
+    <div style="text-align: center; margin-top: 20px;">
+        <input type="file" id="songFileInput" accept="audio/*" style="display: none;">
+        <button id="addSongButton" style="background-color: #c90404; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; display: flex; align-items: center; gap: 5px;">
+            <span style="font-size: 20px;">&#43;</span> Adicionar Música
+        </button>
+    </div>
+    <script>
+        const addSongButton = document.getElementById('addSongButton');
+        const songFileInput = document.getElementById('songFileInput');
+
+        addSongButton.addEventListener('click', () => {
+            songFileInput.click();
+        });
+
+        songFileInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const songName = file.name;
+                const songFile = URL.createObjectURL(file);
+
+                const newSong = { name: songName, file: songFile };
+                songs.push(newSong);
+
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <span>${newSong.name}</span>
+                    <button onclick="playSong(${songs.length - 1})">Play</button>
+                `;
+                playlist.appendChild(li);
+            }
+        });
+    </script>
+    <script>
+        const addSongButton = document.getElementById('addSongButton');
+
+        addSongButton.addEventListener('click', () => {
+            const songName = prompt("Digite o nome da música:");
+            const songFile = prompt("Digite o caminho do arquivo da música:");
+
+            if (songName && songFile) {
+                const newSong = { name: songName, file: songFile };
+                songs.push(newSong);
+
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <span>${newSong.name}</span>
+                    <button onclick="playSong(${songs.length - 1})">Play</button>
+                `;
+                playlist.appendChild(li);
+            } else {
+                alert("Nome ou caminho do arquivo inválido.");
+            }
+        });
+    </script>
+    <script>
+        const audioPlayer = document.getElementById('audioPlayer');
+        const nowPlaying = document.getElementById('nowPlaying');
+        const playlist = document.getElementById('playlist');
+        const prevButton = document.getElementById('prevButton');
+        const nextButton = document.getElementById('nextButton');
+
+        let currentSongIndex = 0;
+
+        const songs = [
+            { name: "Eletronica", file: "midia/m1.mp3" },
+            { name: "Rockroll", file: "midia/m2.wav" },
+            { name: "Eletronica", file: "midia/m3.mp3" }
+        ];
+
+        function loadSong(index) {
+            const song = songs[index];
+            audioPlayer.src = song.file;
+            nowPlaying.textContent = ` ${song.name}`;
+            highlightCurrentSong(index);
+        }
+
+        function highlightCurrentSong(index) {
+            const playlistItems = document.querySelectorAll('.playlist li');
+            playlistItems.forEach((item, i) => {
+                item.classList.toggle('active', i === index);
+            });
+        }
+
+        function playSong(index) {
+            currentSongIndex = index;
+            loadSong(index);
+            audioPlayer.play();
+        }
+
+        function playNext() {
+            currentSongIndex = (currentSongIndex + 1) % songs.length;
+            playSong(currentSongIndex);
+        }
+
+        function playPrevious() {
+            currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+            playSong(currentSongIndex);
+        }
+
+        songs.forEach((song, index) => {
+            const li = document.createElement('li');
+            li.innerHTML = `
+                <span>${song.name}</span>
+                <button onclick="playSong(${index})">Play</button>
+            `;
+            playlist.appendChild(li);
+        });
+
+        prevButton.addEventListener('click', playPrevious);
+        nextButton.addEventListener('click', playNext);
+
+        // Load the first song by default
+        loadSong(currentSongIndex);
+    </script>
+</body>
+</html>
