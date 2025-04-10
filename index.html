@@ -3,294 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PlayOne</title>
+    <title>Tela de Login</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #000000;
-        }
-        header {
-            background-color: #c90404;
-            color: white;
-            padding: 15px;
-            text-align: center;
-        }
-        .container {
-            padding: 20px;
-        }
-        .audio-player {
-            background-image: url(midia/linhas-vermelha.jpg);
+            background-image: url(midia/music-8.jpg);
             background-size: cover;
             background-position: center;
-            margin-bottom: 100px;
-            text-align: center;
-            padding: 100px;
-            border-radius: 10px;
-            color: white;
-            max-width: 100%;
-            box-sizing: border-box;
-        }
-
-        audio {
-            width: 100%;
-            max-width: 400px;
-        }
-
-        .controls {
-            flex-direction: row;
-            gap: 10px;
-        }
-
-        .controls button {
-            width: auto;
-            max-width: none;
-            font-size: 16px;
-            padding: 10px 15px;
-            border: none;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            display: inline-flex;
+            display: flex;
             justify-content: center;
             align-items: center;
-            gap: 5px;
+            height: 100vh;
             margin: 0;
         }
-
-        .controls button:focus {
-            outline: 2px solid #ffcccb;
-            outline-offset: 2px;
+        .login-container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            animation: fadeIn 1s ease-in-out;
         }
-
-        .controls button:hover {
-            background-color: #c90404;
-            transform: scale(1.05);
+        .login-container h1 {
+            margin-bottom: 20px;
+            font-size: 26px;
+            color: #444;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
         }
-        .playlist {
-            list-style: none;
-            padding: 0;
+        .login-container input {
+            width: 100%;
+            padding: 12px;
+            margin: 12px 0;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-size: 16px;
         }
-        .playlist li {
-            background: white;
-            margin: 10px 0;
-            padding: 10px;
-            border-radius: 5px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        .login-container input:focus {
+            border-color: #007BFF;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+            outline: none;
         }
-        .playlist li.active {
-            background-color: #ffcccb;
-        }
-        .playlist li button {
-            background-color: #c90404b0;
+        .login-container button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(45deg, #007BFF, #0056b3);
             color: white;
             border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
+            border-radius: 6px;
             cursor: pointer;
             font-size: 16px;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            width: 100%;
-            max-width: 200px;
-            box-sizing: border-box;
+            transition: background 0.3s ease, transform 0.2s ease;
         }
-        .playlist li button:hover {
-            background-color: #c90404;
+        .login-container button:hover {
+            background: linear-gradient(45deg, #0056b3, #003f7f);
             transform: scale(1.05);
         }
-        .playlist li button:focus {
-            outline: 2px solid #ffcccb;
-            outline-offset: 2px;
+        .login-container button:active {
+            transform: scale(0.95);
         }
-        @media (max-width: 768px) {
-            .playlist li button {
-                font-size: 14px;
-                padding: 8px 10px;
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
-        .controls {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 10px;
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
         }
-        .controls button {
-            background-color: #c90404;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .controls button:hover {
-            background-color: #c904047a;
+        @media (max-width: 768px) {
+            .login-container {
+                padding: 30px;
+            }
+            .login-container h1 {
+                font-size: 22px;
+            }
+            .login-container input, .login-container button {
+                font-size: 14px;
+            }
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>PlayOne</h1>
-        <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 10px;">
-            <input type="text" placeholder="Pesquisar..." style="padding: 5px; border-radius: 5px; border: 1px solid #ccc;">
-            <button style="background-color: #c90404; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">Pesquisar</button>
-        </div>
-        <nav style="margin-top: 10px; text-align: center;">
-            <a href="#inicio" style="margin: 0 10px; color: white; text-decoration: none;">Início</a>
-            <a href="#conta" style="margin: 0 10px; color: white; text-decoration: none;">Conta</a>
-            <a href="#planos" style="margin: 0 10px; color: white; text-decoration: none;">Planos</a>
-        </nav>
-    </header>
-    <div class="container">
-        <div class="audio-player">
-            <audio id="audioPlayer" controls>
-                <source src="" type="audio/mpeg">
-                Your browser does not support the audio element.
-            </audio>
-            <div id="nowPlaying" style="margin-top: 10px; font-weight: bold;">
-                <!-- Current song info will be displayed here -->
-            </div>
-            <div class="controls">
-                <button id="prevButton" aria-label="Previous">
-                    <span style="font-size: 20px;">&#9664;</span>
-                </button>
-                <button id="nextButton" aria-label="Next">
-                    <span style="font-size: 20px;">&#9654;</span>
-                </button>
-            </div>
-            <button id="addToFavoritesButton" style="margin-top: 10px; background-color: transparent; color: white; border: none; cursor: pointer; font-size: 24px;">
-                <span id="favoriteIcon" style="color: white;">&#9825;</span>curtir
-            </button>
-            <script>
-                const addToFavoritesButton = document.getElementById('addToFavoritesButton');
-                const favoriteIcon = document.getElementById('favoriteIcon');
-                let isFavorite = false;
-
-                addToFavoritesButton.addEventListener('click', () => {
-                    isFavorite = !isFavorite;
-                    favoriteIcon.innerHTML = isFavorite ? '&#9829;' : '&#9825;';
-                    favoriteIcon.style.color = isFavorite ? '#ff0000' : 'white';
-                });
-            </script>
-        </div>
-        <div style="text-align: center; margin-top: 20px;">
-            <input type="file" id="songFileInput" accept="audio/*" style="display: none;">
-            <button id="addSongButton" style="background-color: #c90404; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; display: flex; align-items: center; gap: 5px;">
-                <span style="font-size: 20px;">&#43;</span>Adicionar Música
-            </button>
-        </div>
-        <ul class="playlist" id="playlist">
-            <!-- Songs will be dynamically added here -->
-        </ul>
+    <div class="login-container">
+        <h1>Login</h1>
+        <form>
+            <input type="text" placeholder="Usuário" required>
+            <input type="password" placeholder="Senha" required>
+            <button type="button" onclick="window.location.href='inicio.html'">Entrar</button>
+        </form>
     </div>
     <script>
-        const addSongButton = document.getElementById('addSongButton');
-        const songFileInput = document.getElementById('songFileInput');
+        document.addEventListener('mousemove', function(e) {
+            const note = document.createElement('div');
+            note.textContent = '♪';
+            note.style.position = 'absolute';
+            note.style.left = e.pageX + 'px';
+            note.style.top = e.pageY + 'px';
+            note.style.fontSize = Math.random() * 20 + 10 + 'px';
+            note.style.color = 'red';
+            note.style.pointerEvents = 'none';
+            note.style.animation = 'fadeOut 1s ease forwards';
+            document.body.appendChild(note);
 
-        addSongButton.addEventListener('click', () => {
-            songFileInput.click();
+            setTimeout(() => {
+                note.remove();
+            }, 1000);
         });
-
-        songFileInput.addEventListener('change', (event) => {
-            const file = event.target.files[0];
-            if (file) {
-                const songName = file.name;
-                const songFile = URL.createObjectURL(file);
-
-                const newSong = { name: songName, file: songFile };
-                songs.push(newSong);
-
-                const li = document.createElement('li');
-                li.innerHTML = `
-                    <span>${newSong.name}</span>
-                    <button onclick="playSong(${songs.length - 1})">Play</button>
-                `;
-                playlist.appendChild(li);
-            }
-        });
-    </script>
-    <script>
-        const addSongButton = document.getElementById('addSongButton');
-
-        addSongButton.addEventListener('click', () => {
-            const songName = prompt("Digite o nome da música:");
-            const songFile = prompt("Digite o caminho do arquivo da música:");
-
-            if (songName && songFile) {
-                const newSong = { name: songName, file: songFile };
-                songs.push(newSong);
-
-                const li = document.createElement('li');
-                li.innerHTML = `
-                    <span>${newSong.name}</span>
-                    <button onclick="playSong(${songs.length - 1})">Play</button>
-                `;
-                playlist.appendChild(li);
-            } else {
-                alert("Nome ou caminho do arquivo inválido.");
-            }
-        });
-    </script>
-    <script>
-        const audioPlayer = document.getElementById('audioPlayer');
-        const nowPlaying = document.getElementById('nowPlaying');
-        const playlist = document.getElementById('playlist');
-        const prevButton = document.getElementById('prevButton');
-        const nextButton = document.getElementById('nextButton');
-
-        let currentSongIndex = 0;
-
-        const songs = [
-            { name: "Eletronica", file: "midia/m1.mp3" },
-            { name: "Rockroll", file: "midia/m2.wav" },
-            { name: "Eletronica", file: "midia/m3.mp3" }
-        ];
-
-        function loadSong(index) {
-            const song = songs[index];
-            audioPlayer.src = song.file;
-            nowPlaying.textContent = ` ${song.name}`;
-            highlightCurrentSong(index);
-        }
-
-        function highlightCurrentSong(index) {
-            const playlistItems = document.querySelectorAll('.playlist li');
-            playlistItems.forEach((item, i) => {
-                item.classList.toggle('active', i === index);
-            });
-        }
-
-        function playSong(index) {
-            currentSongIndex = index;
-            loadSong(index);
-            audioPlayer.play();
-        }
-
-        function playNext() {
-            currentSongIndex = (currentSongIndex + 1) % songs.length;
-            playSong(currentSongIndex);
-        }
-
-        function playPrevious() {
-            currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
-            playSong(currentSongIndex);
-        }
-
-        songs.forEach((song, index) => {
-            const li = document.createElement('li');
-            li.innerHTML = `
-                <span>${song.name}</span>
-                <button onclick="playSong(${index})">Play</button>
-            `;
-            playlist.appendChild(li);
-        });
-
-        prevButton.addEventListener('click', playPrevious);
-        nextButton.addEventListener('click', playNext);
-
-        // Load the first song by default
-        loadSong(currentSongIndex);
     </script>
 </body>
 </html>

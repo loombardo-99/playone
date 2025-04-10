@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlayOne</title>
+    <style>
+        /* Estilo geral do corpo */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000000;
+        }
+
+        /* Estilo do cabeçalho */
+        header {
+            background-image: url(midia/music-8.jpg);
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        /* Container principal */
+        .container {
+            padding: 20px;
+        }
+
+        /* Estilo do player de áudio */
+        .audio-player {
+            background-image: url(midia/player-2.jpg);
+            background-size: cover;
+            background-position: center;
+            margin-bottom: 100px;
+            text-align: center;
+            padding: 100px;
+            border-radius: 10px;
+            color: white;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Estilo do elemento de áudio */
+        audio {
+            width: 100%;
+            max-width: 400px;
+        }
+
+        /* Controles de navegação */
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        /* Botões de controle */
+        .controls button {
+            background-color: #c90404;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        /* Efeito hover nos botões */
+        .controls button:hover {
+            background-color: #c904047a;
+            transform: scale(1.05);
+        }
+
+        /* Lista de reprodução */
+        .playlist {
+            list-style: none;
+            padding: 0;
+        }
+
+        /* Estilo dos itens da playlist */
+        .playlist li {
+            background: white;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Destaque para a música ativa */
+        .playlist li.active {
+            background-color: #ffcccb;
+        }
+
+        /* Botões da playlist */
+        .playlist li button {
+            background-color: #c90404b0;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        /* Efeito hover nos botões da playlist */
+        .playlist li button:hover {
+            background-color: #c90404;
+            transform: scale(1.05);
+        }
+
+        /* Responsividade para telas menores */
+        @media (max-width: 768px) {
+            .playlist li button {
+                font-size: 14px;
+                padding: 8px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Cabeçalho com título e navegação -->
+    <header style="display: flex; flex-direction: column; align-items: center; padding: 60px;">
+        <div style="position: relative; width: 100%; height: 100%;">
+            <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 15px;"></div>
+            <input type="text" placeholder="Pesquisar..." style="padding: 8px; border-radius: 5px; border: 1px solid #ccc; width: 200px;">
+            <button style="background-color: #c90404; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">Pesquisar</button>
+            </div>
+            <nav style="margin-top: 15px;">
+            <a href="inicio.html" style="margin: 0 15px; color: white; text-decoration: none; font-weight: bold;">Início</a>
+            <a href="conta.html" style="margin: 0 15px; color: white; text-decoration: none; font-weight: bold;">Conta</a>
+            <a href="playlist.html" style="margin: 0 15px; color: white; text-decoration: none; font-weight: bold;">Playlist</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Container principal -->
+    <div class="container">
+        <!-- Player de áudio -->
+        <div class="audio-player">
+            <audio id="audioPlayer" controls>
+                <source src="" type="audio/mpeg">
+                Seu navegador não suporta o elemento de áudio.
+            </audio>
+            <div id="nowPlaying" style="margin-top: 10px; font-weight: bold;">
+
+            </div>
+            <div class="controls">
+                <button id="prevButton" aria-label="Anterior">
+                    <span style="font-size: 20px;">&#9664;</span>
+                </button>
+                <button id="nextButton" aria-label="Próxima">
+                    <span style="font-size: 20px;">&#9654;</span>
+                </button>
+            </div>
+            <button id="addToFavoritesButton" style="margin-top: 10px; background-color: #00000078; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer;">Adicionar aos Favoritos</button>
+        </div>
+
+        <!-- Seção de álbuns -->
+        <section style="margin-top: 40px;">
+            <h2 style="color: white; text-align: center;">Álbuns</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; margin-top: 20px;">
+                <div style="text-align: center;">
+                    <img src="midia/music-1.jpg" alt="Álbum 1" style="width: 100%; border-radius: 10px;">
+                    <p style="color: white; margin-top: 10px;">Álbum 1</p>
+                </div>
+                <div style="text-align: center;">
+                    <img src="midia/music-2.jpg" alt="Álbum 2" style="width: 100%; border-radius: 10px;">
+                    <p style="color: white; margin-top: 10px;">Álbum 2</p>
+                </div>
+                <div style="text-align: center;">
+                    <img src="midia/music-3.jpg" alt="Álbum 3" style="width: 100%; border-radius: 10px;">
+                    <p style="color: white; margin-top: 10px;">Álbum 3</p>
+                </div>
+                <div style="text-align: center;">
+                    <img src="midia/music-4.jpg" alt="Álbum 4" style="width: 100%; border-radius: 10px;">
+                    <p style="color: white; margin-top: 10px;">Álbum 4</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção de playlists -->
+        <section style="margin-top: 40px;">
+            <h2 style="color: white; text-align: center;">Playlists</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; margin-top: 20px;">
+                <div style="text-align: center;">
+                    <img src="midia/playlist1.jpg" alt="Playlist 1" style="width: 100%; border-radius: 10px;">
+                    <p style="color: white; margin-top: 10px;">Playlist 1</p>
+                </div>
+                <div style="text-align: center;">
+                    <img src="midia/playlist2.jpg" alt="Playlist 2" style="width: 100%; border-radius: 10px;">
+                    <p style="color: white; margin-top: 10px;">Playlist 2</p>
+                </div>
+                <div style="text-align: center;">
+                    <img src="midia/music-3.jpg" alt="Playlist 3" style="width: 100%; border-radius: 10px;">
+                    <p style="color: white; margin-top: 10px;">Playlist 3</p>
+                </div>
+                <div style="text-align: center;">
+                    <img src="midia/playlist4.jpg" alt="Playlist 4" style="width: 100%; border-radius: 10px;">
+                    <p style="color: white; margin-top: 10px;">Playlist 4</p>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
