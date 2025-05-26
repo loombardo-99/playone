@@ -3,14 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PlayOne</title>
+    <title>PlayOne - Playlist</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        /* Estilo geral do corpo */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Inter', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #000000;
+            background-color: #121212; /* Fundo mais escuro e suave */
+            color: #E0E0E0; /* Cor de texto padrão clara */
         }
 
         /* Estilo do cabeçalho */
@@ -18,233 +21,760 @@
             background-image: url(midia/music-8.jpg);
             background-size: cover;
             background-position: center;
-            color: white;
-            padding: 15px;
+            position: relative;
+            padding: 5rem 1.5rem; /* Mais padding para um visual mais espaçoso */
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Sombra sutil para o cabeçalho */
+        }
+
+        /* Overlay para o cabeçalho para melhorar a legibilidade do texto */
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7); /* Overlay mais escuro */
+            backdrop-filter: blur(5px); /* Efeito de desfoque mais pronunciado */
+            z-index: 0;
+        }
+
+        header > * {
+            position: relative;
+            z-index: 1;
         }
 
         /* Container principal */
         .container {
-            padding: 20px;
+            padding: 3rem 2rem; /* Mais padding para o container principal */
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         /* Estilo do player de áudio */
         .audio-player {
-            background-image: url(midia/player-2.jpg);
-            background-size: cover;
-            background-position: center;
-            margin-bottom: 100px;
+            background-color: #1A1A1A; /* Fundo sólido para o player */
+            position: relative;
+            margin-bottom: 5rem; /* Mais margem inferior */
             text-align: center;
-            padding: 100px;
-            border-radius: 10px;
+            padding: 3.5rem 2rem; /* Padding ajustado */
+            border-radius: 1.5rem; /* Cantos mais arredondados */
             color: white;
-            max-width: 100%;
             box-sizing: border-box;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6); /* Sombra mais pronunciada */
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            border: 1px solid rgba(255, 255, 255, 0.05); /* Borda sutil */
         }
 
-        /* Estilo do elemento de áudio */
+        .audio-player::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5); /* Overlay mais suave para o player */
+            backdrop-filter: blur(8px); /* Desfoque mais forte para o player */
+            z-index: 0;
+        }
+
+        .audio-player > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Estilo do elemento de áudio (escondido) */
         audio {
-            width: 100%;
-            max-width: 400px;
+            display: none;
         }
 
-        /* Controles de navegação */
+        /* Controles de navegação do player */
         .controls {
             display: flex;
             justify-content: center;
-            gap: 10px;
-            margin-top: 10px;
+            align-items: center;
+            gap: 1.5rem; /* Espaçamento entre botões */
+            margin-top: 2rem;
         }
 
         /* Botões de controle */
         .controls button {
-            background-color: #c90404;
+            background-color: #FF4D4D; /* Vermelho moderno */
             color: white;
             border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
+            padding: 1rem 1.5rem; /* Padding ajustado */
+            border-radius: 0.75rem; /* Cantos mais arredondados */
             cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem; /* Tamanho do ícone */
+            box-shadow: 0 4px 10px rgba(255, 77, 77, 0.3); /* Sombra para o botão */
         }
 
         /* Efeito hover nos botões */
         .controls button:hover {
-            background-color: #c904047a;
-            transform: scale(1.05);
+            background-color: #E63946; /* Vermelho mais escuro no hover */
+            transform: translateY(-5px); /* Efeito de "levantar" mais pronunciado */
+            box-shadow: 0 8px 20px rgba(255, 77, 77, 0.5); /* Sombra colorida mais forte */
+        }
+
+        .controls button:active {
+            transform: translateY(0);
+            box-shadow: none;
+        }
+
+        /* Volume slider */
+        .volume-slider-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+            justify-content: center;
+        }
+
+        .volume-slider {
+            width: 150px; /* Slider um pouco maior */
+            -webkit-appearance: none;
+            height: 10px; /* Mais espesso */
+            background: #444; /* Fundo mais escuro */
+            outline: none;
+            opacity: 0.8;
+            -webkit-transition: .2s;
+            transition: opacity .2s;
+            border-radius: 5px;
+        }
+
+        .volume-slider:hover {
+            opacity: 1;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px; /* Polegar maior */
+            height: 24px;
+            border-radius: 50%;
+            background: #FF4D4D; /* Vermelho moderno */
+            cursor: pointer;
+            box-shadow: 0 0 8px rgba(255, 77, 77, 0.7);
+        }
+
+        .volume-slider::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #FF4D4D;
+            cursor: pointer;
+            box-shadow: 0 0 8px rgba(255, 77, 77, 0.7);
+        }
+
+        /* Estilo para "Adicionar aos Favoritos" */
+        #addToFavoritesButton {
+            background-color: rgba(255, 255, 255, 0.1); /* Fundo semi-transparente */
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2); /* Borda sutil */
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-top: 2rem;
+            font-weight: 600; /* Mais negrito */
+            font-size: 1.1rem;
+        }
+
+        #addToFavoritesButton:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: scale(1.03);
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Título da Playlist */
+        .playlist-section h2 {
+            font-size: 2.5rem; /* Título maior */
+            font-weight: 700;
+            margin-bottom: 2.5rem; /* Mais margem inferior */
+            text-align: center;
+            color: #FFFFFF;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.3); /* Sombra de texto mais pronunciada */
         }
 
         /* Lista de reprodução */
         .playlist {
             list-style: none;
             padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Layout de grade para a playlist */
+            gap: 1.5rem; /* Espaçamento entre os itens */
+            margin-top: 2rem;
         }
 
         /* Estilo dos itens da playlist */
         .playlist li {
-            background: white;
-            margin: 10px 0;
-            padding: 10px;
-            border-radius: 5px;
+            background-color: rgba(30, 30, 30, 0.8); /* Fundo mais escuro e sólido para itens */
+            margin: 0; /* Remove margem padrão */
+            padding: 1.25rem;
+            border-radius: 1rem; /* Cantos mais arredondados */
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4); /* Sombra mais forte */
+            border: 1px solid rgba(255, 255, 255, 0.08); /* Borda sutil */
+            transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .playlist li:hover {
+            transform: translateY(-5px) scale(1.02); /* Efeito de "levantar" e expandir */
+            background-color: rgba(40, 40, 40, 0.9); /* Fundo mais claro no hover */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); /* Sombra mais forte */
         }
 
         /* Destaque para a música ativa */
         .playlist li.active {
-            background-color: #ffcccb;
+            background-color: #FF4D4D; /* Vermelho vibrante para a música ativa */
+            color: white;
+            box-shadow: 0 8px 20px rgba(255, 77, 77, 0.6);
+            transform: scale(1.02);
+            border-color: #FF4D4D;
+        }
+
+        .playlist li.active button {
+            background-color: rgba(255, 255, 255, 0.2); /* Botão mais claro na música ativa */
+            color: white;
+        }
+
+        .playlist li.active button:hover {
+            background-color: rgba(255, 255, 255, 0.3);
         }
 
         /* Botões da playlist */
         .playlist li button {
-            background-color: #c90404b0;
+            background-color: rgba(255, 255, 255, 0.1); /* Fundo semi-transparente */
             color: white;
             border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
+            padding: 0.6rem 1rem;
+            border-radius: 0.5rem;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 1rem;
             transition: background-color 0.3s ease, transform 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        /* Efeito hover nos botões da playlist */
         .playlist li button:hover {
-            background-color: #c90404;
+            background-color: rgba(255, 255, 255, 0.2);
             transform: scale(1.05);
         }
 
-        /* Responsividade para telas menores */
+        /* Estilos para o display de mídia (capa/vídeo) */
+        .media-display {
+            width: 100%;
+            max-width: 350px; /* Tamanho da capa/vídeo */
+            height: 350px;
+            margin: 0 auto 2rem auto;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+            background-color: #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ccc;
+            font-size: 1.4rem;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .media-display img, .media-display video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Botão para adicionar música */
+        #addSongButton {
+            background-color: #FF4D4D;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin: 2rem auto; /* Centraliza o botão */
+            box-shadow: 0 4px 10px rgba(255, 77, 77, 0.3);
+        }
+
+        #addSongButton:hover {
+            background-color: #E63946;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 77, 77, 0.5);
+        }
+
+        /* Modal personalizado */
+        .custom-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #282828; /* Fundo mais escuro */
+            padding: 2.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            display: none; /* Escondido por padrão */
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            color: white;
+            text-align: center;
+            max-width: 90%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .custom-modal.show {
+            display: flex;
+            animation: fadeInModal 0.3s ease-out;
+        }
+
+        .custom-modal.hide {
+            animation: fadeOutModal 0.3s ease-out forwards;
+        }
+
+        @keyframes fadeInModal {
+            from { opacity: 0; transform: translate(-50%, -60%); }
+            to { opacity: 1; transform: translate(-50%, -50%); }
+        }
+
+        @keyframes fadeOutModal {
+            from { opacity: 1; transform: translate(-50%, -50%); }
+            to { opacity: 0; transform: translate(-50%, -60%); }
+        }
+
+        .custom-modal button {
+            background-color: #FF4D4D; /* Cor do botão do modal */
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .custom-modal button:hover {
+            background-color: #E63946;
+        }
+
+        /* Responsividade geral */
+        @media (max-width: 1024px) {
+            .container {
+                padding: 2rem 1.5rem;
+            }
+            .playlist-section h2 {
+                font-size: 2.2rem;
+            }
+            .playlist {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 1rem;
+            }
+            .audio-player {
+                padding: 3rem 1.5rem;
+            }
+            .media-display {
+                max-width: 300px;
+                height: 300px;
+            }
+        }
+
         @media (max-width: 768px) {
-            .playlist li button {
-                font-size: 14px;
-                padding: 8px 10px;
+            header {
+                padding: 3.5rem 1rem;
+            }
+            header nav a {
+                margin: 0 10px;
+                font-size: 0.9rem;
+            }
+            .audio-player {
+                padding: 2.5rem 1rem;
+            }
+            .playlist-section h2 {
+                font-size: 2rem;
+            }
+            .playlist {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 0.75rem;
+            }
+            .playlist li {
+                padding: 1rem;
+                font-size: 1rem;
+            }
+            .controls button {
+                padding: 0.8rem 1.2rem;
+                font-size: 1.2rem;
+            }
+            .media-display {
+                max-width: 250px;
+                height: 250px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1.5rem;
+            }
+            header {
+                padding: 2.5rem 0.5rem;
+            }
+            header nav {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+            header nav a {
+                margin: 0;
+                font-size: 0.8rem;
+            }
+            .audio-player {
+                padding: 2rem 0.75rem;
+            }
+            .playlist-section h2 {
+                font-size: 1.8rem;
+            }
+            .playlist {
+                grid-template-columns: 1fr; /* Uma coluna em telas muito pequenas */
+                gap: 0.5rem;
+            }
+            .playlist li {
+                padding: 0.8rem;
+                font-size: 0.9rem;
+            }
+            .controls button {
+                padding: 0.7rem 1rem;
+                font-size: 1.1rem;
+            }
+            #addToFavoritesButton {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.95rem;
+            }
+            #addSongButton {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.95rem;
+            }
+            .media-display {
+                max-width: 200px;
+                height: 200px;
             }
         }
     </style>
 </head>
-<body>
-    <!-- Cabeçalho com título e navegação -->
-    <header style="display: flex; flex-direction: column; align-items: center; padding: 60px;">
-        <div style="position: relative; width: 100%; height: 100%;">
-            <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 15px;"></div>
-            <input type="text" placeholder="Pesquisar..." style="padding: 8px; border-radius: 5px; border: 1px solid #ccc; width: 200px;">
-            <button style="background-color: #c90404; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">Pesquisar</button>
+<body class="bg-gray-900">
+    <header>
+        <div class="relative z-10 flex flex-col items-center">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-6 text-shadow-lg">PlayOne</h1>
+            <div class="flex items-center gap-3 mb-6 w-full max-w-md">
+                <input type="text" placeholder="Pesquisar..." class="flex-grow p-3 rounded-lg border border-gray-600 bg-gray-800 text-white placeholder-gray-400 focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-300">
+                <button class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-all duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                </button>
             </div>
-            <nav style="margin-top: 15px;">
-            <a href="inicio.html" style="margin: 0 15px; color: white; text-decoration: none; font-weight: bold;">Início</a>
-            <a href="conta.html" style="margin: 0 15px; color: white; text-decoration: none; font-weight: bold;">Conta</a>
-            <a href="playlist.html" style="margin: 0 15px; color: white; text-decoration: none; font-weight: bold;">Playlist</a>
+            <nav class="flex flex-wrap justify-center gap-6 mt-4">
+                <a href="inicio.html" class="text-white text-lg font-semibold hover:text-red-500 transition-colors duration-300 relative group">
+                    Início
+                    <span class="absolute bottom-0 left-0 w-full h-0.5 bg-red-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                </a>
+                <a href="conta.html" class="text-white text-lg font-semibold hover:text-red-500 transition-colors duration-300 relative group">
+                    Conta
+                    <span class="absolute bottom-0 left-0 w-full h-0.5 bg-red-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                </a>
+                <a href="playlist.html" class="text-white text-lg font-semibold hover:text-red-500 transition-colors duration-300 relative group">
+                    Playlist
+                    <span class="absolute bottom-0 left-0 w-full h-0.5 bg-red-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                </a>
+                <a href="producao.html" class="text-white text-lg font-semibold hover:text-red-500 transition-colors duration-300 relative group">
+                    Produção
+                    <span class="absolute bottom-0 left-0 w-full h-0.5 bg-red-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                </a>
             </nav>
         </div>
     </header>
 
-    <!-- Container principal -->
     <div class="container">
-        <!-- Player de áudio -->
         <div class="audio-player">
-            <audio id="audioPlayer" controls>
-                <source src="" type="audio/mpeg">
+            <div id="mediaDisplay" class="media-display">
+                Nenhuma mídia carregada
+            </div>
+
+            <audio id="audioPlayer">
                 Seu navegador não suporta o elemento de áudio.
             </audio>
-            <div id="nowPlaying" style="margin-top: 10px; font-weight: bold;">
-                <!-- Informações da música atual -->
-            </div>
+            <div id="nowPlaying" class="mt-4 text-xl font-bold text-white">
+                </div>
             <div class="controls">
                 <button id="prevButton" aria-label="Anterior">
-                    <span style="font-size: 20px;">&#9664;</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-skip-back"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" x2="5" y1="19" y2="5"/></svg>
+                </button>
+                <button id="playPauseButton" aria-label="Reproduzir/Pausar">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-play"><polygon points="5 3 19 12 5 21 5 3"/></svg>
                 </button>
                 <button id="nextButton" aria-label="Próxima">
-                    <span style="font-size: 20px;">&#9654;</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-skip-forward"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" x2="19" y1="5" y2="19"/></svg>
                 </button>
             </div>
-            <button id="addToFavoritesButton" style="margin-top: 10px; background-color: #00000078; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer;">Adicionar aos Favoritos</button>
-        </div>
-
-        <!-- Botão para adicionar músicas -->
-        <div style="text-align: center; margin-top: 20px;">
-            <input type="file" id="songFileInput" accept="audio/*" style="display: none;">
-            <button id="addSongButton" style="background-color: #c90404; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; display: flex; align-items: center; gap: 5px;">
-                <span style="font-size: 20px;">&#43;</span>Adicionar Música
+            <div class="volume-slider-container">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-volume-2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M23.31 1.69a16 16 0 0 1 0 20.62"/></svg>
+                <input type="range" id="volumeSlider" class="volume-slider" min="0" max="1" step="0.01" value="1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-volume-x"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="22" x2="16" y1="9" y2="15"/><line x1="16" x2="22" y1="9" y2="15"/></svg>
+            </div>
+            <button id="addToFavoritesButton">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart inline-block mr-2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+                Adicionar aos Favoritos
             </button>
         </div>
 
-        <!-- Lista de reprodução -->
-        <ul class="playlist" id="playlist">
-            <!-- Músicas serão adicionadas dinamicamente -->
-        </ul>
+        <section class="playlist-section">
+            <h2>Minha Playlist</h2>
+            <div class="text-center mb-8">
+                <input type="file" id="songFileInput" accept="audio/*" class="hidden">
+                <button id="addSongButton">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                    Adicionar Música
+                </button>
+            </div>
+            <ul class="playlist" id="playlist">
+                </ul>
+        </section>
+    </div>
+
+    <div id="customModal" class="custom-modal">
+        <p id="modalMessage"></p>
+        <button id="modalCloseButton">Fechar</button>
     </div>
 
     <script>
+        // Inicialização dos ícones Lucide
+        lucide.createIcons();
+
         // Referências aos elementos
-        const addSongButton = document.getElementById('addSongButton');
-        const songFileInput = document.getElementById('songFileInput');
         const audioPlayer = document.getElementById('audioPlayer');
         const nowPlaying = document.getElementById('nowPlaying');
-        const playlist = document.getElementById('playlist');
+        const playlistUl = document.getElementById('playlist'); // Renomeado para evitar conflito com a array 'playlist'
         const prevButton = document.getElementById('prevButton');
+        const playPauseButton = document.getElementById('playPauseButton');
         const nextButton = document.getElementById('nextButton');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const addToFavoritesButton = document.getElementById('addToFavoritesButton');
+        const addSongButton = document.getElementById('addSongButton');
+        const songFileInput = document.getElementById('songFileInput');
+        const customModal = document.getElementById('customModal');
+        const modalMessage = document.getElementById('modalMessage');
+        const modalCloseButton = document.getElementById('modalCloseButton');
 
         let currentSongIndex = 0;
+        let isPlaying = false;
 
-        // Lista de músicas
-        const songs = [
-            { name: "Eletronica", file: "midia/m1.mp3" },
-            { name: "Rockroll", file: "midia/m2.wav" },
-            { name: "Eletronica", file: "midia/m3.mp3" }
+        // Exemplo de playlist inicial (pode ser carregada dinamicamente de um servidor)
+        const playlist = [
+            { name: "Eletronica - Artista X", file: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", cover: "https://placehold.co/150x150/FF0000/FFFFFF?text=Eletronica" },
+            { name: "Rockroll - Banda Y", file: "https://www.w3schools.com/html/horse.mp3", cover: "https://placehold.co/150x150/00FF00/FFFFFF?text=Rockroll" },
+            { name: "Eletronica - Artista Z", file: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3", cover: "https://placehold.co/150x150/0000FF/FFFFFF?text=Eletronica" }
         ];
 
-        // Carrega a música atual
+        // Função para mostrar o modal personalizado
+        function showModal(message) {
+            modalMessage.textContent = message;
+            customModal.classList.add('show');
+            customModal.classList.remove('hide');
+        }
+
+        // Função para esconder o modal personalizado
+        function hideModal() {
+            customModal.classList.add('hide');
+            customModal.classList.remove('show');
+        }
+
+        // Event listener para fechar o modal
+        modalCloseButton.addEventListener('click', hideModal);
+
+        // Carrega a música atual no player e atualiza o display de mídia
         function loadSong(index) {
-            const song = songs[index];
-            audioPlayer.src = song.file;
-            nowPlaying.textContent = ` ${song.name}`;
-            highlightCurrentSong(index);
+            if (index >= 0 && index < playlist.length) {
+                currentSongIndex = index;
+                const song = playlist[currentSongIndex];
+                audioPlayer.src = song.file;
+                nowPlaying.textContent = `A tocar: ${song.name}`;
+                highlightCurrentSong(index);
+
+                // Atualiza o display de mídia (capa da música)
+                const mediaDisplay = document.getElementById('mediaDisplay');
+                mediaDisplay.innerHTML = ''; // Limpa o conteúdo anterior
+                if (song.cover) {
+                    const imgElement = document.createElement('img');
+                    imgElement.src = song.cover;
+                    imgElement.alt = `Capa: ${song.name}`;
+                    mediaDisplay.appendChild(imgElement);
+                } else {
+                    mediaDisplay.innerHTML = '<p>Nenhuma capa disponível</p>';
+                }
+            } else {
+                console.log('Fim da playlist ou índice inválido.');
+                stopTrack();
+                nowPlaying.textContent = 'Nenhuma música a tocar.';
+                document.getElementById('mediaDisplay').innerHTML = '<p>Nenhuma mídia carregada</p>';
+            }
         }
 
         // Destaca a música atual na playlist
         function highlightCurrentSong(index) {
-            const playlistItems = document.querySelectorAll('.playlist li');
+            const playlistItems = playlistUl.querySelectorAll('li');
             playlistItems.forEach((item, i) => {
                 item.classList.toggle('active', i === index);
             });
         }
 
         // Toca a música selecionada
-        function playSong(index) {
-            currentSongIndex = index;
-            loadSong(index);
+        function playTrack() {
             audioPlayer.play();
+            isPlaying = true;
+            playPauseButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pause"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>';
+        }
+
+        // Pausa a música
+        function pauseTrack() {
+            audioPlayer.pause();
+            isPlaying = false;
+            playPauseButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-play"><polygon points="5 3 19 12 5 21 5 3"/></svg>';
+        }
+
+        // Para a música
+        function stopTrack() {
+            audioPlayer.pause();
+            audioPlayer.currentTime = 0;
+            isPlaying = false;
+            playPauseButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-play"><polygon points="5 3 19 12 5 21 5 3"/></svg>';
         }
 
         // Avança para a próxima música
         function playNext() {
-            currentSongIndex = (currentSongIndex + 1) % songs.length;
-            playSong(currentSongIndex);
+            currentSongIndex = (currentSongIndex + 1) % playlist.length;
+            loadSong(currentSongIndex);
+            playTrack();
         }
 
         // Volta para a música anterior
         function playPrevious() {
-            currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
-            playSong(currentSongIndex);
+            currentSongIndex = (currentSongIndex - 1 + playlist.length) % playlist.length;
+            loadSong(currentSongIndex);
+            playTrack();
         }
 
-        // Adiciona músicas à playlist
-        songs.forEach((song, index) => {
-            const li = document.createElement('li');
-            li.innerHTML = `
-                <span>${song.name}</span>
-                <button onclick="playSong(${index})">Play</button>
-            `;
-            playlist.appendChild(li);
-        });
+        // Renderiza a playlist na UI
+        function renderPlaylist() {
+            playlistUl.innerHTML = ''; // Limpa a lista existente
+            playlist.forEach((song, index) => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <span>${song.name}</span>
+                    <button data-index="${index}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-play"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                        Play
+                    </button>
+                `;
+                li.querySelector('button').addEventListener('click', (event) => {
+                    const indexToPlay = parseInt(event.currentTarget.dataset.index);
+                    playSong(indexToPlay);
+                });
+                playlistUl.appendChild(li);
+            });
+            highlightCurrentSong(currentSongIndex); // Destaca a música atual após renderizar
+            lucide.createIcons(); // Re-inicializa os ícones para novos elementos
+        }
 
-        // Eventos dos botões de controle
+        // Toca uma música específica pelo índice
+        function playSong(index) {
+            loadSong(index);
+            playTrack();
+        }
+
+        // Eventos dos botões de controle do player
+        playPauseButton.addEventListener('click', () => {
+            if (isPlaying) {
+                pauseTrack();
+            } else {
+                playTrack();
+            }
+        });
         prevButton.addEventListener('click', playPrevious);
         nextButton.addEventListener('click', playNext);
 
-        // Carrega a primeira música por padrão
-        loadSong(currentSongIndex);
+        // Slider de Volume
+        volumeSlider.addEventListener('input', (e) => {
+            audioPlayer.volume = e.target.value;
+        });
+
+        // Adicionar aos Favoritos (usando modal personalizado)
+        addToFavoritesButton.addEventListener('click', () => {
+            if (playlist[currentSongIndex]) {
+                showModal(`"${playlist[currentSongIndex].name}" adicionada aos favoritos!`);
+                // Aqui você pode adicionar lógica para salvar em um banco de dados, etc.
+            } else {
+                showModal('Nenhuma música a tocar para adicionar aos favoritos.');
+            }
+        });
+
+        // Lógica para adicionar música via input de ficheiro
+        addSongButton.addEventListener('click', () => {
+            songFileInput.click(); // Abre o seletor de ficheiros
+        });
+
+        songFileInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const newSong = {
+                    name: file.name,
+                    file: URL.createObjectURL(file), // Cria um URL para o ficheiro local
+                    cover: 'https://placehold.co/150x150/555555/FFFFFF?text=Nova+Musica' // Capa padrão para novas músicas
+                };
+                playlist.push(newSong);
+                renderPlaylist(); // Re-renderiza a playlist
+                showModal(`"${newSong.name}" adicionada à playlist!`);
+            }
+        });
+
+        // Quando a música termina, vai para a próxima
+        audioPlayer.addEventListener('ended', () => {
+            playNext();
+        });
+
+        // Carrega a primeira música ao carregar a página e renderiza a playlist
+        window.onload = () => {
+            if (playlist.length > 0) {
+                loadSong(currentSongIndex);
+                audioPlayer.volume = volumeSlider.value; // Define o volume inicial
+            } else {
+                nowPlaying.textContent = 'Nenhuma música disponível. Adicione uma!';
+                document.getElementById('mediaDisplay').innerHTML = '<p>Nenhuma mídia carregada</p>';
+            }
+            renderPlaylist(); // Renderiza a playlist inicial
+        };
     </script>
 </body>
 </html>

@@ -3,14 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PlayOne</title>
+    <title>PlayOne - Conta</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        /* Estilo geral do corpo */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Inter', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #000000;
+            background-color: #121212; /* Fundo mais escuro e suave */
+            color: #E0E0E0; /* Cor de texto padrão clara */
         }
 
         /* Estilo do cabeçalho */
@@ -18,165 +21,518 @@
             background-image: url(midia/music-8.jpg);
             background-size: cover;
             background-position: center;
-            color: white;
-            padding: 15px;
+            position: relative;
+            padding: 5rem 1.5rem; /* Mais padding para um visual mais espaçoso */
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Sombra sutil para o cabeçalho */
+        }
+
+        /* Overlay para o cabeçalho para melhorar a legibilidade do texto */
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7); /* Overlay mais escuro */
+            backdrop-filter: blur(5px); /* Efeito de desfoque mais pronunciado */
+            z-index: 0;
+        }
+
+        header > * {
+            position: relative;
+            z-index: 1;
         }
 
         /* Container principal */
         .container {
-            padding: 20px;
+            padding: 3rem 2rem; /* Mais padding para o container principal */
+            max-width: 800px; /* Largura máxima para o conteúdo da conta */
+            margin: 0 auto;
         }
 
-        /* Estilo do player de áudio */
-        .audio-player {
-            background-image: url(midia/player-2.jpg);
-            background-size: cover;
-            background-position: center;
-            margin-bottom: 100px;
+        /* Seções de Configuração */
+        section {
+            background-color: #1A1A1A; /* Fundo sólido para as seções */
+            padding: 2.5rem;
+            border-radius: 1.5rem; /* Cantos mais arredondados */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6); /* Sombra mais pronunciada */
+            margin-top: 3rem; /* Margem superior para separar as seções */
+            border: 1px solid rgba(255, 255, 255, 0.05); /* Borda sutil */
+        }
+
+        section h2 {
+            font-size: 2.5rem; /* Título maior */
+            font-weight: 700;
+            margin-bottom: 2.5rem; /* Mais margem inferior */
             text-align: center;
-            padding: 100px;
-            border-radius: 10px;
-            color: white;
-            max-width: 100%;
-            box-sizing: border-box;
+            color: #FFFFFF;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.3); /* Sombra de texto mais pronunciada */
         }
 
-        /* Estilo do elemento de áudio */
-        audio {
-            width: 100%;
-            max-width: 400px;
+        section h3 {
+            font-size: 1.8rem; /* Título de subseção */
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #F0F0F0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Linha divisória sutil */
+            padding-bottom: 0.5rem;
         }
 
-        /* Controles de navegação */
-        .controls {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 10px;
+        /* Imagem de Perfil */
+        .profile-image-container {
+            text-align: center;
+            margin-bottom: 2.5rem;
         }
 
-        /* Botões de controle */
-        .controls button {
-            background-color: #c90404;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
+        .profile-image {
+            width: 180px; /* Imagem maior */
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #FF4D4D; /* Borda vermelha vibrante */
+            box-shadow: 0 0 20px rgba(255, 77, 77, 0.5); /* Sombra de brilho */
+            transition: transform 0.3s ease;
         }
 
-        /* Efeito hover nos botões */
-        .controls button:hover {
-            background-color: #c904047a;
+        .profile-image:hover {
             transform: scale(1.05);
         }
 
-        /* Lista de reprodução */
-        .playlist {
-            list-style: none;
-            padding: 0;
-        }
-
-        /* Estilo dos itens da playlist */
-        .playlist li {
-            background: white;
-            margin: 10px 0;
-            padding: 10px;
-            border-radius: 5px;
-            display: flex;
-            justify-content: space-between;
+        .change-image-button {
+            background-color: #FF4D4D; /* Vermelho moderno */
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            margin-top: 1.5rem;
+            display: inline-flex;
             align-items: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            gap: 0.5rem;
+            box-shadow: 0 4px 10px rgba(255, 77, 77, 0.3);
         }
 
-        /* Destaque para a música ativa */
-        .playlist li.active {
-            background-color: #ffcccb;
+        .change-image-button:hover {
+            background-color: #E63946;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 77, 77, 0.5);
         }
 
-        /* Botões da playlist */
-        .playlist li button {
-            background-color: #c90404b0;
+        /* Formulários */
+        form {
+            display: grid;
+            gap: 1.5rem; /* Espaçamento entre campos */
+            margin-top: 1.5rem;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            border: 1px solid #444; /* Borda mais escura */
+            background-color: #282828; /* Fundo do input mais escuro */
+            color: #E0E0E0;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        input[type="text"]::placeholder,
+        input[type="email"]::placeholder,
+        input[type="password"]::placeholder {
+            color: #A0A0A0;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="password"]:focus {
+            border-color: #FF4D4D; /* Borda vermelha no foco */
+            box-shadow: 0 0 10px rgba(255, 77, 77, 0.6); /* Sombra de brilho no foco */
+            outline: none;
+            background-color: #333; /* Fundo mais claro no foco */
+        }
+
+        .save-changes-button,
+        .change-plan-button,
+        .delete-account-button,
+        .logout-button {
+            background-color: #FF4D4D; /* Vermelho moderno */
             color: white;
             border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
             cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 10px rgba(255, 77, 77, 0.3);
         }
 
-        /* Efeito hover nos botões da playlist */
-        .playlist li button:hover {
-            background-color: #c90404;
-            transform: scale(1.05);
+        .save-changes-button:hover,
+        .change-plan-button:hover,
+        .delete-account-button:hover,
+        .logout-button:hover {
+            background-color: #E63946;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 77, 77, 0.5);
         }
 
-        /* Responsividade para telas menores */
+        .delete-account-button {
+            background-color: #DC2626; /* Vermelho mais forte para exclusão */
+            box-shadow: 0 4px 10px rgba(220, 38, 38, 0.3);
+        }
+
+        .delete-account-button:hover {
+            background-color: #B91C1C;
+            box-shadow: 0 8px 20px rgba(220, 38, 38, 0.5);
+        }
+
+        .logout-button {
+            background-color: #4B5563; /* Cinza para sair */
+            box-shadow: 0 4px 10px rgba(75, 85, 99, 0.3);
+        }
+
+        .logout-button:hover {
+            background-color: #374151;
+            box-shadow: 0 8px 20px rgba(75, 85, 99, 0.5);
+        }
+
+        /* Planos */
+        .plan-info {
+            margin-top: 1rem;
+            font-size: 1.1rem;
+            color: #D0D0D0;
+        }
+
+        .plan-info strong {
+            color: #FF4D4D; /* Cor de destaque para o plano */
+            font-weight: 700;
+        }
+
+        /* Outras Configurações - botões em linha */
+        .other-settings-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        /* Modal personalizado */
+        .custom-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #282828; /* Fundo mais escuro */
+            padding: 2.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            display: none; /* Escondido por padrão */
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            color: white;
+            text-align: center;
+            max-width: 90%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .custom-modal.show {
+            display: flex;
+            animation: fadeInModal 0.3s ease-out;
+        }
+
+        .custom-modal.hide {
+            animation: fadeOutModal 0.3s ease-out forwards;
+        }
+
+        @keyframes fadeInModal {
+            from { opacity: 0; transform: translate(-50%, -60%); }
+            to { opacity: 1; transform: translate(-50%, -50%); }
+        }
+
+        @keyframes fadeOutModal {
+            from { opacity: 1; transform: translate(-50%, -50%); }
+            to { opacity: 0; transform: translate(-50%, -60%); }
+        }
+
+        .custom-modal button {
+            background-color: #FF4D4D; /* Cor do botão do modal */
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .custom-modal button:hover {
+            background-color: #E63946;
+        }
+
+        /* Responsividade geral */
+        @media (max-width: 1024px) {
+            .container {
+                padding: 2.5rem 1.5rem;
+            }
+            section {
+                padding: 2rem;
+            }
+            section h2 {
+                font-size: 2.2rem;
+            }
+            section h3 {
+                font-size: 1.6rem;
+            }
+        }
+
         @media (max-width: 768px) {
-            .playlist li button {
-                font-size: 14px;
-                padding: 8px 10px;
+            header {
+                padding: 3.5rem 1rem;
+            }
+            header nav a {
+                margin: 0 10px;
+                font-size: 0.9rem;
+            }
+            .container {
+                padding: 2rem 1rem;
+            }
+            section {
+                padding: 1.5rem;
+                margin-top: 2rem;
+            }
+            section h2 {
+                font-size: 2rem;
+            }
+            section h3 {
+                font-size: 1.4rem;
+            }
+            .profile-image {
+                width: 140px;
+                height: 140px;
+            }
+            input[type="text"],
+            input[type="email"],
+            input[type="password"] {
+                padding: 0.8rem;
+                font-size: 1rem;
+            }
+            .save-changes-button,
+            .change-plan-button,
+            .delete-account-button,
+            .logout-button {
+                padding: 0.8rem 1.5rem;
+                font-size: 1rem;
+            }
+            .other-settings-buttons {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 2.5rem 0.5rem;
+            }
+            header nav {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+            header nav a {
+                margin: 0;
+                font-size: 0.8rem;
+            }
+            .container {
+                padding: 1.5rem 0.75rem;
+            }
+            section {
+                padding: 1.2rem;
+                margin-top: 1.5rem;
+            }
+            section h2 {
+                font-size: 1.8rem;
+            }
+            section h3 {
+                font-size: 1.2rem;
+            }
+            .profile-image {
+                width: 120px;
+                height: 120px;
+            }
+            .change-image-button {
+                padding: 0.7rem 1.2rem;
+                font-size: 0.9rem;
+            }
+            input[type="text"],
+            input[type="email"],
+            input[type="password"] {
+                padding: 0.7rem;
+                font-size: 0.95rem;
+            }
+            .save-changes-button,
+            .change-plan-button,
+            .delete-account-button,
+            .logout-button {
+                padding: 0.7rem 1.2rem;
+                font-size: 0.95rem;
+            }
+            .plan-info {
+                font-size: 1rem;
             }
         }
     </style>
 </head>
-<body>
-    <!-- Cabeçalho com título e navegação -->
-    <header style="display: flex; flex-direction: column; align-items: center; padding: 60px;">
-        <div style="position: relative; width: 100%; height: 100%;">
-            <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 15px;"></div>
-            <input type="text" placeholder="Pesquisar..." style="padding: 8px; border-radius: 5px; border: 1px solid #ccc; width: 200px;">
-            <button style="background-color: #c90404; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">Pesquisar</button>
+<body class="bg-gray-900">
+ <header>
+        <div class="relative z-10 flex flex-col items-center">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-6 text-shadow-lg">PlayOne</h1>
+            <div class="flex items-center gap-3 mb-6 w-full max-w-md">
+                <input type="text" placeholder="Pesquisar..." class="flex-grow p-3 rounded-lg border border-gray-600 bg-gray-800 text-white placeholder-gray-400 focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-300">
+                <button class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-all duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                </button>
             </div>
-            <nav style="margin-top: 15px;">
-            <a href="inicio.html" style="margin: 0 15px; color: white; text-decoration: none; font-weight: bold;">Início</a>
-            <a href="conta.html" style="margin: 0 15px; color: white; text-decoration: none; font-weight: bold;">Conta</a>
-            <a href="playlist.html" style="margin: 0 15px; color: white; text-decoration: none; font-weight: bold;">Playlist</a>
+            <nav class="flex flex-wrap justify-center gap-6 mt-4">
+                <a href="inicio.html" class="text-white text-lg font-semibold hover:text-red-500 transition-colors duration-300 relative group">
+                    Início
+                    <span class="absolute bottom-0 left-0 w-full h-0.5 bg-red-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                </a>
+                <a href="conta.html" class="text-white text-lg font-semibold hover:text-red-500 transition-colors duration-300 relative group">
+                    Conta
+                    <span class="absolute bottom-0 left-0 w-full h-0.5 bg-red-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                </a>
+                <a href="playlist.html" class="text-white text-lg font-semibold hover:text-red-500 transition-colors duration-300 relative group">
+                    Playlist
+                    <span class="absolute bottom-0 left-0 w-full h-0.5 bg-red-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                </a>
+                <a href="producao.html" class="text-white text-lg font-semibold hover:text-red-500 transition-colors duration-300 relative group">
+                    Produção
+                    <span class="absolute bottom-0 left-0 w-full h-0.5 bg-red-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                </a>
             </nav>
         </div>
     </header>
 
-    <!-- Tela de Configuração da Conta -->
     <div class="container">
-        <section style="margin-top: 40px; color: white;">
-            <h2 style="text-align: center;">Configurações da Conta</h2>
+        <section>
+            <h2>Configurações da Conta</h2>
 
-            <!-- Seção de Imagem de Perfil -->
-            <div style="margin-top: 20px; text-align: center;">
-                <img src="midia/Design sem nome (9).png" alt="Imagem de Perfil" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 2px solid white;">
-                <div style="margin-top: 10px;">
-                    <button style="background-color: #c90404; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer;">Alterar Imagem</button>
+            <div class="profile-image-container">
+                <img src="midia/Design sem nome (9).png" alt="Imagem de Perfil" class="profile-image" onerror="this.onerror=null;this.src='https://placehold.co/180x180/333333/FFFFFF?text=Perfil';">
+                <div>
+                    <button class="change-image-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-image"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+                        Alterar Imagem
+                    </button>
                 </div>
             </div>
 
-            <!-- Seção de Dados Pessoais -->
-            <div style="margin-top: 40px;">
+            <div>
                 <h3>Dados Pessoais</h3>
-                <form style="display: grid; gap: 15px; margin-top: 20px;" onsubmit="return confirmarSenha();">
-                    <input type="text" placeholder="Nome Completo" style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
-                    <input type="email" placeholder="E-mail" style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
-                    <input type="password" placeholder="Senha" style="padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
-                    <button type="submit" style="background-color: #c90404; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer;">Salvar Alterações</button>
+                <form id="personalDataForm">
+                    <input type="text" placeholder="Nome Completo" required>
+                    <input type="email" placeholder="E-mail" required>
+                    <input type="password" placeholder="Senha" required>
+                    <button type="submit" class="save-changes-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-save"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                        Salvar Alterações
+                    </button>
                 </form>
             </div>
 
-            <!-- Seção de Planos -->
-            <div style="margin-top: 40px;">
+            <div class="mt-8">
                 <h3>Planos</h3>
-                <p style="margin-top: 10px;">Plano Atual: <strong style="color: #ffcccb;">Premium</strong></p>
-                <button style="background-color: #c90404; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer;">Alterar Plano</button>
+                <p class="plan-info">Plano Atual: <strong class="text-red-500">Premium</strong></p>
+                <button class="change-plan-button mt-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-credit-card"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+                    Alterar Plano
+                </button>
             </div>
 
-            <!-- Outras Configurações -->
-            <div style="margin-top: 40px;">
+            <div class="mt-8">
                 <h3>Outras Configurações</h3>
-                <button style="background-color: #c90404; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; margin-top: 10px;">Excluir Conta</button>
-                <button style="background-color: #c90404; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; margin-top: 10px;">Sair</button>
+                <div class="other-settings-buttons">
+                    <button class="delete-account-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
+                        Excluir Conta
+                    </button>
+                    <button class="logout-button" onclick="window.location.href='index.html'">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="17 17 22 12 17 7"/><line x1="22" x2="10" y1="12" y2="12"/></svg>
+                        Sair
+                    </button>
+                </div>
             </div>
         </section>
     </div>
+
+    <div id="customModal" class="custom-modal">
+        <p id="modalMessage"></p>
+        <button id="modalCloseButton">Fechar</button>
+    </div>
+
+    <script>
+        // Inicialização dos ícones Lucide
+        lucide.createIcons();
+
+        const personalDataForm = document.getElementById('personalDataForm');
+        const customModal = document.getElementById('customModal');
+        const modalMessage = document.getElementById('modalMessage');
+        const modalCloseButton = document.getElementById('modalCloseButton');
+
+        // Função para mostrar o modal personalizado
+        function showModal(message) {
+            modalMessage.textContent = message;
+            customModal.classList.add('show');
+            customModal.classList.remove('hide');
+        }
+
+        // Função para esconder o modal personalizado
+        function hideModal() {
+            customModal.classList.add('hide');
+            customModal.classList.remove('show');
+        }
+
+        // Event listener para fechar o modal
+        modalCloseButton.addEventListener('click', hideModal);
+
+        // Event listener para o formulário de dados pessoais
+        personalDataForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Impede o envio padrão do formulário
+            showModal('Alterações salvas com sucesso!');
+            // Aqui você pode adicionar a lógica para salvar os dados no backend
+        });
+
+        // Exemplo de uso para outros botões (pode ser expandido)
+        document.querySelector('.change-image-button').addEventListener('click', () => {
+            showModal('Funcionalidade de alterar imagem em desenvolvimento!');
+        });
+
+        document.querySelector('.change-plan-button').addEventListener('click', () => {
+            showModal('Funcionalidade de alterar plano em desenvolvimento!');
+        });
+
+        document.querySelector('.delete-account-button').addEventListener('click', () => {
+            // Em uma aplicação real, você pediria confirmação antes de excluir
+            showModal('Tem certeza que deseja excluir sua conta? (Funcionalidade em desenvolvimento)');
+        });
+
+        // O botão "Sair" já tem um onclick direto para index.html
+    </script>
 </body>
 </html>

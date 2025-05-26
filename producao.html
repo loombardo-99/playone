@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlayOne - Produção</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #121212; /* Fundo mais escuro e suave */
+            color: #E0E0E0; /* Cor de texto padrão clara */
+        }
+
+        /* Estilo do cabeçalho */
+        header {
+            background-image: url(midia/music-8.jpg);
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            padding: 5rem 1.5rem; /* Mais padding para um visual mais espaçoso */
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Sombra sutil para o cabeçalho */
+        }
+
+        /* Overlay para o cabeçalho para melhorar a legibilidade do texto */
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7); /* Overlay mais escuro */
+            backdrop-filter: blur(5px); /* Efeito de desfoque mais pronunciado */
+            z-index: 0;
+        }
+
+        header > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Container principal */
+        .container {
+            padding: 3rem 2rem; /* Mais padding para o container principal */
+            max-width: 900px; /* Largura máxima para o conteúdo */
+            margin: 0 auto;
+        }
+
+        /* Seção de Produção */
+        .production-section {
+            background-color: #1A1A1A; /* Fundo sólido para a seção */
+            padding: 2.5rem;
+            border-radius: 1.5rem; /* Cantos mais arredondados */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6); /* Sombra mais pronunciada */
+            margin-top: 3rem; /* Margem superior para separar as seções */
+            border: 1px solid rgba(255, 255, 255, 0.05); /* Borda sutil */
+        }
+
+        .production-section h2 {
+            font-size: 2.5rem; /* Título maior */
+            font-weight: 700;
+            margin-bottom: 2.5rem; /* Mais margem inferior */
+            text-align: center;
+            color: #FFFFFF;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.3); /* Sombra de texto mais pronunciada */
+        }
+
+        .production-section h3 {
+            font-size: 1.8rem; /* Título de subseção */
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #F0F0F0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Linha divisória sutil */
+            padding-bottom: 0.5rem;
+        }
+
+        /* Formulário de Adição de Música */
+        .add-song-form {
+            display: grid;
+            gap: 1.5rem; /* Espaçamento entre campos */
+            margin-top: 1.5rem;
+        }
+
+        .add-song-form input[type="text"],
+        .add-song-form input[type="url"],
+        .add-song-form input[type="file"] {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            border: 1px solid #444; /* Borda mais escura */
+            background-color: #282828; /* Fundo do input mais escuro */
+            color: #E0E0E0;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .add-song-form input::placeholder {
+            color: #A0A0A0; /* Cor do placeholder */
+        }
+
+        .add-song-form input:focus {
+            border-color: #FF4D4D; /* Borda vermelha no foco */
+            box-shadow: 0 0 10px rgba(255, 77, 77, 0.6); /* Sombra de brilho no foco */
+            outline: none;
+            background-color: #333; /* Fundo mais claro no foco */
+        }
+
+        .add-song-form input[type="file"] {
+            padding: 0.8rem; /* Ajuste para input file */
+            cursor: pointer;
+        }
+
+        .add-song-button {
+            background-color: #FF4D4D; /* Vermelho moderno */
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+            box-shadow: 0 4px 10px rgba(255, 77, 77, 0.3);
+        }
+
+        .add-song-button:hover {
+            background-color: #E63946;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 77, 77, 0.5);
+        }
+
+        /* Lista de Produções */
+        .my-productions-list {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Layout de grade */
+            gap: 1.5rem; /* Espaçamento entre os itens */
+            margin-top: 2rem;
+        }
+
+        .my-productions-list li {
+            background-color: rgba(30, 30, 30, 0.8); /* Fundo mais escuro e sólido para itens */
+            padding: 1.25rem;
+            border-radius: 1rem; /* Cantos mais arredondados */
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4); /* Sombra mais forte */
+            border: 1px solid rgba(255, 255, 255, 0.08); /* Borda sutil */
+            transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .my-productions-list li:hover {
+            transform: translateY(-5px) scale(1.02);
+            background-color: rgba(40, 40, 40, 0.9);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        }
+
+        .my-productions-list li img {
+            width: 120px;
+            height: 120px;
+            border-radius: 0.75rem;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .my-productions-list li .song-details {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #F8F8F8;
+        }
+
+        .my-productions-list li .song-artist {
+            font-size: 0.9rem;
+            color: #B0B0B0;
+            margin-top: 0.25rem;
+        }
+
+        /* Modal personalizado */
+        .custom-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #282828; /* Fundo mais escuro */
+            padding: 2.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            display: none; /* Escondido por padrão */
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            color: white;
+            text-align: center;
+            max-width: 90%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .custom-modal.show {
+            display: flex;
+            animation: fadeInModal 0.3s ease-out;
+        }
+
+        .custom-modal.hide {
+            animation: fadeOutModal 0.3s ease-out forwards;
+        }
+
+        @keyframes fadeInModal {
+            from { opacity: 0; transform: translate(-50%, -60%); }
+            to { opacity: 1; transform: translate(-50%, -50%); }
+        }
+
+        @keyframes fadeOutModal {
+            from { opacity: 1; transform: translate(-50%, -50%); }
+            to { opacity: 0; transform: translate(-50%, -60%); }
+        }
+
+        .custom-modal button {
+            background-color: #FF4D4D; /* Cor do botão do modal */
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .custom-modal button:hover {
+            background-color: #E63946;
+        }
+
+        /* Responsividade geral */
+        @media (max-width: 1024px) {
+            .container {
+                padding: 2.5rem 1.5rem;
+            }
+            .production-section {
+                padding: 2rem;
+            }
+            .production-section h2 {
+                font-size: 2.2rem;
+            }
+            .production-section h3 {
+                font-size: 1.6rem;
+            }
+            .my-productions-list {
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 3.5rem 1rem;
+            }
+            header nav a {
+                margin: 0 10px;
+                font-size: 0.9rem;
+            }
+            .container {
+                padding: 2rem 1rem;
+            }
+            .production-section {
+                padding: 1.5rem;
+                margin-top: 2rem;
+            }
+            .production-section h2 {
+                font-size: 2rem;
+            }
+            .production-section h3 {
+                font-size: 1.4rem;
+            }
+            .add-song-form input {
+                font-size: 1rem;
+                padding: 0.8rem;
+            }
+            .add-song-button {
+                font-size: 1rem;
+                padding: 0.8rem 1.5rem;
+            }
+            .my-productions-list {
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+                gap: 0.75rem;
+            }
+            .my-productions-list li {
+                padding: 1rem;
+            }
+            .my-productions-list li img {
+                width: 100px;
+                height: 100px;
+            }
+            .my-productions-list li .song-details {
+                font-size: 1rem;
+            }
+            .my-productions-list li .song-artist {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 2.5rem 0.5rem;
+            }
+            header nav {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+            header nav a {
+                margin: 0;
+                font-size: 0.8rem;
+            }
+            .container {
+                padding: 1.5rem 0.75rem;
+            }
+            .production-section {
+                padding: 1.2rem;
+                margin-top: 1.5rem;
+            }
+            .production-section h2 {
+                font-size: 1.8rem;
+            }
+            .production-section h3 {
+                font-size: 1.2rem;
+            }
+            .add-song-form input {
+                font-size: 0.95rem;
+                padding: 0.7rem;
+            }
+            .add-song-button {
+                font-size: 0.95rem;
+                padding: 0.7rem 1.2rem;
+            }
+            .my-productions-list {
+                grid-template-columns: 1fr; /* Uma coluna em telas muito pequenas */
+                gap: 0.5rem;
+            }
+            .my-productions-list li {
+                padding: 0.8rem;
+            }
+            .my-productions-list li img {
+                width: 80px;
+                height: 80px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-900">
+    <header>
+        <div class="relative z-10 flex flex-col items-center">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-6 text-shadow-lg">PlayOne</h1>
+            <div class="flex items-center gap-3 mb-6 w-full max-w-md">
+                <input type="text" placeholder="Pesquisar..." class="flex-grow p-3 rounded-lg border border-gray-600 bg-gray-800 text-white placeholder-gray-400 focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all duration-300">
+                <button class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-all duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                </button>
+            </div>
+            <nav class="flex flex-wrap justify-center gap-6 mt-4">
+                <a href="inicio.html" class="text-white text-lg font-semibold hover:text-red-500 transition-colors duration-300 relative group">
+                    Início
+                    <span class="absolute bottom-0 left-0 w-full h-0.5 bg-red-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                </a>
+                <a href="conta.html" class="text-white text-lg font-semibold hover:text-red-500 transition-colors duration-300 relative group">
+                    Conta
+                    <span class="absolute bottom-0 left-0 w-full h-0.5 bg-red-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                </a>
+                <a href="playlist.html" class="text-white text-lg font-semibold hover:text-red-500 transition-colors duration-300 relative group">
+                    Playlist
+                    <span class="absolute bottom-0 left-0 w-full h-0.5 bg-red-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                </a>
+                <a href="producao.html" class="text-white text-lg font-semibold hover:text-red-500 transition-colors duration-300 relative group">
+                    Produção
+                    <span class="absolute bottom-0 left-0 w-full h-0.5 bg-red-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="production-section">
+            <h2>Ambiente de Produção Musical</h2>
+
+            <div>
+                <h3>Adicionar Nova Música</h3>
+                <form id="addSongForm" class="add-song-form">
+                    <input type="text" id="songTitle" placeholder="Título da Música" required>
+                    <input type="text" id="songArtist" placeholder="Artista" required>
+                    <input type="text" id="songAlbum" placeholder="Álbum (opcional)">
+                    <input type="url" id="songCover" placeholder="URL da Capa (opcional)">
+                    <input type="file" id="songFile" accept="audio/*" required>
+                    <button type="submit" class="add-song-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-circle"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
+                        Salvar Música
+                    </button>
+                </form>
+            </div>
+
+            <div class="mt-8">
+                <h3>Minhas Produções</h3>
+                <ul id="myProductionsList" class="my-productions-list">
+                    <li class="p-4 bg-gray-800 rounded-lg shadow-md flex flex-col items-center">
+                        <img src="https://placehold.co/120x120/FF4D4D/FFFFFF?text=Minha+Musica" alt="Capa da Música" class="w-24 h-24 rounded-lg object-cover mb-3">
+                        <div class="song-details text-lg font-semibold">Exemplo de Música</div>
+                        <div class="song-artist text-sm text-gray-400">Exemplo de Artista</div>
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </div>
+
+    <div id="customModal" class="custom-modal">
+        <p id="modalMessage"></p>
+        <button id="modalCloseButton">Fechar</button>
+    </div>
+
+    <script>
+        // Inicialização dos ícones Lucide
+        lucide.createIcons();
+
+        const addSongForm = document.getElementById('addSongForm');
+        const songTitleInput = document.getElementById('songTitle');
+        const songArtistInput = document.getElementById('songArtist');
+        const songAlbumInput = document.getElementById('songAlbum');
+        const songCoverInput = document.getElementById('songCover');
+        const songFileInput = document.getElementById('songFile');
+        const myProductionsList = document.getElementById('myProductionsList');
+        const customModal = document.getElementById('customModal');
+        const modalMessage = document.getElementById('modalMessage');
+        const modalCloseButton = document.getElementById('modalCloseButton');
+
+        // Array para armazenar as músicas produzidas (para demonstração)
+        let myProductions = [];
+
+        // Função para mostrar o modal personalizado
+        function showModal(message) {
+            modalMessage.textContent = message;
+            customModal.classList.add('show');
+            customModal.classList.remove('hide');
+        }
+
+        // Função para esconder o modal personalizado
+        function hideModal() {
+            customModal.classList.add('hide');
+            customModal.classList.remove('show');
+        }
+
+        // Event listener para fechar o modal
+        modalCloseButton.addEventListener('click', hideModal);
+
+        // Renderiza a lista de músicas produzidas
+        function renderMyProductions() {
+            myProductionsList.innerHTML = ''; // Limpa a lista existente
+            if (myProductions.length === 0) {
+                myProductionsList.innerHTML = '<li class="col-span-full text-center text-gray-400">Nenhuma produção ainda. Adicione uma!</li>';
+                return;
+            }
+            myProductions.forEach(production => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <img src="${production.cover || 'https://placehold.co/120x120/333333/FFFFFF?text=Sem+Capa'}" 
+                         alt="Capa da Música: ${production.title}" 
+                         class="w-24 h-24 rounded-lg object-cover mb-3">
+                    <div class="song-details text-lg font-semibold">${production.title}</div>
+                    <div class="song-artist text-sm text-gray-400">${production.artist}</div>
+                    ${production.album ? `<div class="song-album text-xs text-gray-500">${production.album}</div>` : ''}
+                `;
+                myProductionsList.appendChild(li);
+            });
+        }
+
+        // Event listener para o formulário de adição de música
+        addSongForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Impede o envio padrão do formulário
+
+            const title = songTitleInput.value.trim();
+            const artist = songArtistInput.value.trim();
+            const album = songAlbumInput.value.trim();
+            const cover = songCoverInput.value.trim();
+            const file = songFileInput.files[0];
+
+            if (!title || !artist || !file) {
+                showModal('Por favor, preencha o Título, Artista e selecione um Arquivo de Música.');
+                return;
+            }
+
+            const newProduction = {
+                title: title,
+                artist: artist,
+                album: album,
+                cover: cover,
+                file: URL.createObjectURL(file) // Cria um URL para o arquivo de áudio
+            };
+
+            myProductions.push(newProduction);
+            renderMyProductions(); // Atualiza a lista na UI
+
+            showModal(`Música "${title}" salva com sucesso!`);
+
+            // Limpa o formulário
+            addSongForm.reset();
+        });
+
+        // Carrega as produções ao carregar a página
+        window.onload = () => {
+            renderMyProductions();
+        };
+    </script>
+</body>
+</html>

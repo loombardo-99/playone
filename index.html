@@ -3,68 +3,176 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tela de Login</title>
+    <title>PlayOne - Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-image: url(midia/music-8.jpg);
-            background-size: cover;
-            background-position: center;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex; /* Usa flexbox para dividir a tela */
+            height: 100vh; /* Ocupa a altura total da viewport */
+            overflow: hidden; /* Esconde barras de rolagem */
+            background-color: #121212; /* Fundo escuro para consistência */
+        }
+
+        /* Seção de apresentação de vídeo */
+        .presentation-section {
+            position: relative;
+            flex: 1; /* Ocupa metade da largura */
+            height: 100%;
+            background-color: #000; /* Fundo preto para o vídeo */
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
+            overflow: hidden;
         }
+
+        .presentation-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Garante que o vídeo cubra a área */
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+
+        /* Overlay para o vídeo para melhorar a legibilidade do texto e login */
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.037); /* Overlay escuro */
+            backdrop-filter: blur(1px); /* Desfoque sutil */
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .video-overlay h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        .video-overlay p {
+            font-size: 1.1rem;
+            max-width: 500px;
+            line-height: 1.6;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Seção de login */
+        .login-section {
+            flex: 1; /* Ocupa a outra metade da largura */
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #1A1A1A; /* Fundo escuro para a seção de login */
+            position: relative;
+            z-index: 2; /* Garante que o login esteja acima do vídeo */
+        }
+
         .login-container {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.08); /* Fundo semi-transparente para o container de login */
             padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 1.5rem; /* Cantos mais arredondados */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6); /* Sombra mais pronunciada */
             width: 90%;
             max-width: 400px;
             text-align: center;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px); /* Desfoque para o fundo do container */
             animation: fadeIn 1s ease-in-out;
+            border: 1px solid rgba(255, 255, 255, 0.1); /* Borda sutil */
         }
         .login-container h1 {
-            margin-bottom: 20px;
-            font-size: 26px;
-            color: #444;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            margin-bottom: 25px; /* Mais margem */
+            font-size: 2.2rem; /* Título maior */
+            color: #FFFFFF; /* Cor de texto clara */
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
         }
         .login-container input {
             width: 100%;
-            padding: 12px;
-            margin: 12px 0;
-            border: 1px solid #ddd;
-            border-radius: 6px;
+            padding: 1rem; /* Mais padding */
+            margin: 0.75rem 0; /* Mais margem */
+            border: 1px solid #444; /* Borda mais escura */
+            border-radius: 0.75rem; /* Cantos mais arredondados */
             transition: all 0.3s ease;
-            font-size: 16px;
+            font-size: 1.1rem;
+            background-color: #282828; /* Fundo do input mais escuro */
+            color: #E0E0E0;
+            box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.2);
+        }
+        .login-container input::placeholder {
+            color: #A0A0A0; /* Cor do placeholder */
         }
         .login-container input:focus {
-            border-color: #007BFF;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+            border-color: #FF4D4D; /* Borda vermelha no foco */
+            box-shadow: 0 0 10px rgba(255, 77, 77, 0.6); /* Sombra de brilho no foco */
             outline: none;
+            background-color: #333; /* Fundo mais claro no foco */
         }
         .login-container button {
             width: 100%;
-            padding: 12px;
-            background: linear-gradient(45deg, #007BFF, #0056b3);
+            padding: 1.2rem; /* Mais padding */
+            background-color: #FF4D4D; /* Vermelho moderno */
             color: white;
             border: none;
-            border-radius: 6px;
+            border-radius: 0.75rem; /* Cantos mais arredondados */
             cursor: pointer;
-            font-size: 16px;
-            transition: background 0.3s ease, transform 0.2s ease;
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            margin-top: 1.5rem; /* Mais margem superior */
+            box-shadow: 0 4px 10px rgba(255, 77, 77, 0.3);
         }
         .login-container button:hover {
-            background: linear-gradient(45deg, #0056b3, #003f7f);
-            transform: scale(1.05);
+            background-color: #E63946; /* Vermelho mais escuro no hover */
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 77, 77, 0.5);
         }
         .login-container button:active {
-            transform: scale(0.95);
+            transform: translateY(0);
+            box-shadow: none;
         }
+
+        /* Novas opções de conta como links */
+        .account-options {
+            margin-top: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .account-options a {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #E0E0E0; /* Cor padrão do link */
+            text-decoration: none; /* Remove sublinhado padrão */
+            transition: color 0.3s ease, transform 0.2s ease;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            display: block; /* Para ocupar a largura total e aplicar padding */
+        }
+
+        .account-options a:hover {
+            color: #FF4D4D; /* Cor de destaque no hover */
+            transform: translateY(-2px);
+            text-decoration: underline; /* Adiciona sublinhado no hover */
+        }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -75,54 +183,226 @@
                 transform: translateY(0);
             }
         }
-        @keyframes fadeOut {
-            from {
-                opacity: 1;
-                transform: translateY(0);
-            }
-            to {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
+
+        /* Modal personalizado */
+        .custom-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #282828; /* Fundo mais escuro */
+            padding: 2.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            display: none; /* Escondido por padrão */
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            color: white;
+            text-align: center;
+            max-width: 90%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
+
+        .custom-modal.show {
+            display: flex;
+            animation: fadeInModal 0.3s ease-out;
+        }
+
+        .custom-modal.hide {
+            animation: fadeOutModal 0.3s ease-out forwards;
+        }
+
+        @keyframes fadeInModal {
+            from { opacity: 0; transform: translate(-50%, -60%); }
+            to { opacity: 1; transform: translate(-50%, -50%); }
+        }
+
+        @keyframes fadeOutModal {
+            from { opacity: 1; transform: translate(-50%, -50%); }
+            to { opacity: 0; transform: translate(-50%, -60%); }
+        }
+
+        .custom-modal button {
+            background-color: #FF4D4D; /* Cor do botão do modal */
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .custom-modal button:hover {
+            background-color: #E63946;
+        }
+
+        /* Responsividade */
+        /* Para telas menores que 768px (tablets e celulares) */
         @media (max-width: 768px) {
+            body {
+                flex-direction: column; /* Colunas empilhadas */
+                position: relative; /* Necessário para posicionamento absoluto */
+            }
+            .presentation-section {
+                position: absolute; /* Ocupa a tela toda */
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                flex: none;
+                z-index: 0; /* Fica no fundo */
+            }
+            .video-overlay {
+                padding: 1rem; /* Padding menor */
+                background: rgba(0, 0, 0, 0.189); /* Overlay mais leve */
+                backdrop-filter: blur(2px);
+            }
+            .video-overlay h2 {
+                font-size: 1.5rem; /* Fonte menor */
+            }
+            .video-overlay p {
+                font-size: 0.8rem; /* Fonte menor */
+                max-width: 80%;
+            }
+
+            .login-section {
+                position: absolute; /* Posiciona sobre o vídeo */
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                flex: none;
+                background-color: rgba(0, 0, 0, 0.6); /* Fundo semi-transparente para o login */
+                backdrop-filter: blur(5px); /* Desfoque no fundo do login */
+                z-index: 1; /* Fica acima do vídeo */
+                display: flex; /* Mantém flex para centralizar o container de login */
+                justify-content: center;
+                align-items: center;
+                padding: 1rem; /* Padding para evitar que o conteúdo toque as bordas */
+            }
             .login-container {
-                padding: 30px;
+                padding: 25px; /* Reduz o padding */
+                max-width: 350px; /* Mantém largura máxima para legibilidade */
+                width: 90%; /* Permite que encolha */
+                background: rgba(255, 255, 255, 0.15); /* Fundo mais opaco para o container de login */
+                backdrop-filter: blur(15px); /* Desfoque mais forte para o container */
+                border: 1px solid rgba(255, 255, 255, 0.2); /* Borda mais forte */
             }
             .login-container h1 {
-                font-size: 22px;
+                font-size: 1.8rem;
+                margin-bottom: 20px;
             }
             .login-container input, .login-container button {
-                font-size: 14px;
+                font-size: 0.95rem;
+                padding: 0.8rem;
+                margin: 0.6rem 0;
+            }
+            .account-options a {
+                font-size: 0.85rem;
+                padding: 0.4rem;
+            }
+        }
+
+        /* Para telas muito pequenas (celulares em modo retrato) */
+        @media (max-width: 480px) {
+            .presentation-section {
+                height: 100vh; /* Garante que ainda seja altura total */
+            }
+            .login-section {
+                height: 100vh; /* Garante que ainda seja altura total */
+            }
+            .login-container {
+                padding: 20px;
+            }
+            .login-container h1 {
+                font-size: 1.6rem;
+            }
+            .login-container input, .login-container button {
+                font-size: 0.85rem;
+                padding: 0.7rem;
+            }
+            .video-overlay h2 {
+                font-size: 1.3rem; /* Ainda menor para telas muito pequenas */
+            }
+            .video-overlay p {
+                font-size: 0.75rem; /* Ainda menor */
+            }
+            .account-options a {
+                font-size: 0.8rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <h1>Login</h1>
-        <form>
-            <input type="text" placeholder="Usuário" required>
-            <input type="password" placeholder="Senha" required>
-            <button type="button" onclick="window.location.href='inicio.html'">Entrar</button>
-        </form>
+    <div class="presentation-section">
+        <video class="presentation-video" autoplay loop muted playsinline>
+            <source src="midia/Vídeo sem título ‐ Feito com o Clipchamp (6).mp4" type="video/mp4">
+            Seu navegador não suporta o elemento de vídeo.
+        </video>
+        <div class="video-overlay">
+            <h2>Bem-vindo ao PlayOne!</h2>
+            <p>Descubra um mundo de música ilimitada. Crie suas playlists, explore novos artistas e mergulhe em uma experiência sonora única.</p>
+            <p class="mt-4 text-sm opacity-80">Assista ao nosso vídeo para saber mais sobre o sistema.</p>
+        </div>
     </div>
-    <script>
-        document.addEventListener('mousemove', function(e) {
-            const note = document.createElement('div');
-            note.textContent = '♪';
-            note.style.position = 'absolute';
-            note.style.left = e.pageX + 'px';
-            note.style.top = e.pageY + 'px';
-            note.style.fontSize = Math.random() * 20 + 10 + 'px';
-            note.style.color = 'red';
-            note.style.pointerEvents = 'none';
-            note.style.animation = 'fadeOut 1s ease forwards';
-            document.body.appendChild(note);
 
-            setTimeout(() => {
-                note.remove();
-            }, 1000);
+    <div class="login-section">
+        <div class="login-container">
+            <h1>Login</h1>
+            <form>
+                <input type="text" placeholder="Usuário" required>
+                <input type="password" placeholder="Senha" required>
+                <button type="button" onclick="window.location.href='inicio.html'">Entrar</button>
+            </form>
+            <div class="account-options">
+                <a href="#" id="createAccountLink">Criar Conta</a>
+                <a href="#" id="forgotPasswordLink">Esqueci a Senha?</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="customModal" class="custom-modal">
+        <p id="modalMessage"></p>
+        <button id="modalCloseButton">Fechar</button>
+    </div>
+
+    <script>
+        const createAccountLink = document.getElementById('createAccountLink');
+        const forgotPasswordLink = document.getElementById('forgotPasswordLink');
+        const customModal = document.getElementById('customModal');
+        const modalMessage = document.getElementById('modalMessage');
+        const modalCloseButton = document.getElementById('modalCloseButton');
+
+        // Função para mostrar o modal personalizado
+        function showModal(message) {
+            modalMessage.textContent = message;
+            customModal.classList.add('show');
+            customModal.classList.remove('hide');
+        }
+
+        // Função para esconder o modal personalizado
+        function hideModal() {
+            customModal.classList.add('hide');
+            customModal.classList.remove('show');
+        }
+
+        // Event listener para fechar o modal
+        modalCloseButton.addEventListener('click', hideModal);
+
+        // Event listener para o link "Criar Conta"
+        createAccountLink.addEventListener('click', (event) => {
+            event.preventDefault(); // Impede a navegação padrão do link
+            showModal('Funcionalidade de criação de conta em desenvolvimento!');
+            // Em uma aplicação real, você redirecionaria para uma página de registro ou abriria um formulário de registro aqui.
+        });
+
+        // Event listener para o link "Esqueci a Senha?"
+        forgotPasswordLink.addEventListener('click', (event) => {
+            event.preventDefault(); // Impede a navegação padrão do link
+            showModal('Funcionalidade de recuperação de senha em desenvolvimento! Por favor, entre em contato com o suporte.');
+            // Em uma aplicação real, você redirecionaria para uma página de recuperação de senha ou abriria um formulário aqui.
         });
     </script>
 </body>
